@@ -42,6 +42,7 @@ namespace DDACAPI
             // var connection = builder.ConnectionString;
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<MusicContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<UserAccessLogContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

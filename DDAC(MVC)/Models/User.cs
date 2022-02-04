@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DDACAPI.Models
+namespace DDAC_MVC_.Models
 {
     public enum Role
     {

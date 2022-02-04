@@ -3,6 +3,7 @@ using DDACAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DDACAPI.Controllers
@@ -22,14 +23,14 @@ namespace DDACAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.User.ToListAsync();
         }
 
         // GET: api/user/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUsers(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == id);
+            var user = await _context.User.FirstOrDefaultAsync(a => a.Id == id);
 
             if (user == null)
             {
@@ -45,13 +46,27 @@ namespace DDACAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostAuthor(User user)
         {   
-            _context.Users.Add(user);
+            _context.User.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUsers", new { id = user.Id }, user);
         }
 
+        [HttpGet("login")]
+        public async Task<ActionResult<User>> Login(string username, string password)
+        {
+           var user = await _context.User.FirstOrDefaultAsync(u => (u.Username == username || u.Email == username) && u.Password==password);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+
+
     }
 
-   
+
 }
